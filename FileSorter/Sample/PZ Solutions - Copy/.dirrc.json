@@ -1,0 +1,8 @@
+{
+  "bases": {
+    "../": {
+      "terminate": true
+    }
+  },
+  "layout": "Company"
+}

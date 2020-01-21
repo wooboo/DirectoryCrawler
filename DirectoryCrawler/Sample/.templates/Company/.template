@@ -1,0 +1,7 @@
+{
+  "templates": {
+    "Year": {
+      "Name": "{{Year}}"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "templates": {
+    "Company": {
+      "Name": "{{Name}}"
+    }
+  },
+  "root": {
+
+  } 
+}
