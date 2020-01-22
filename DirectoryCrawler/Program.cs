@@ -9,8 +9,8 @@ namespace DirectoryCrawler
         static void Main(string[] args)
         {
             var crawler = new Crawler("./Sample");
-            var dir = crawler.Crawl(null, "./","./");
-            Console.WriteLine(JsonConvert.SerializeObject(dir, Formatting.Indented));
+            //var dir = crawler.Crawl(null, "./");
+            //Console.WriteLine(JsonConvert.SerializeObject(dir, Formatting.Indented));
         }
     }
 }

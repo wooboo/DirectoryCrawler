@@ -6,52 +6,50 @@ namespace DirectoryCrawler.Services
 {
     public class DirectoryEx
     {
-        private readonly string fullPath;
-        private readonly string path;
-        private readonly DirectoryEx root;
 
         public DirectoryEx(string path)
         {
-            Parent = null;
-            Name = $"{Path.DirectorySeparatorChar}";
-            this.fullPath = path;
-            this.path = this.Name;
-            this.root = this;
+            this.Parent = null;
+            this.Name = $"{System.IO.Path.DirectorySeparatorChar}";
+            this.FullPath = path;
+            this.Path = this.Name;
+            this.Root = this;
         }
         public DirectoryEx(DirectoryEx parent, string name)
         {
             Parent = parent;
             Name = name;
-            this.root = parent.root;
-            this.fullPath = Path.Combine(parent.FullPath, name);
-            this.path = Path.Combine(parent.path, name);
+            this.Root = parent.Root;
+            this.FullPath = System.IO.Path.Combine(parent.FullPath, name);
+            this.Path = System.IO.Path.Combine(parent.Path, name);
         }
-
+        public DirectoryEx Root { get; }
         public DirectoryEx Parent { get; }
         public string Name { get; }
-        public string FullPath => this.fullPath;
+        public string FullPath { get; }
+        public string Path { get; }
 
         public IEnumerable<DirectoryEx> GetDirectories()
         {
-            return Directory.EnumerateDirectories(this.FullPath).Select(o => new DirectoryEx(this, Path.GetFileName((string)o)));
+            return Directory.EnumerateDirectories(this.FullPath).Select(o => new DirectoryEx(this, System.IO.Path.GetFileName((string)o)));
         }
 
         public IEnumerable<FileEx> GetFiles()
         {
-            return Directory.EnumerateDirectories(this.FullPath).Select(o => new FileEx(this, Path.GetFileName(o)));
+            return Directory.EnumerateFiles(this.FullPath).Select(o => new FileEx(this, System.IO.Path.GetFileName(o)));
         }
 
         public bool TryGetFile(string filePath, out FileEx? file)
         {
-            var parts = filePath.Split(Path.DirectorySeparatorChar);
+            var parts = filePath.Split(System.IO.Path.DirectorySeparatorChar);
             var dirs = parts[..^1];
             var fileName = parts[^1];
             DirectoryEx dir = this;
-            if (dirs.Length > 0 && this.TryGetDirectory(Path.Combine(dirs), out var tmpDir))
+            if (dirs.Length > 0 && this.TryGetDirectory(System.IO.Path.Combine(dirs), out var tmpDir))
             {
                 dir = tmpDir!;
             }
-            if (File.Exists(Path.Combine(this.fullPath, filePath)))
+            if (File.Exists(System.IO.Path.Combine(this.FullPath, filePath)))
             {
                 file = new FileEx(dir, fileName);
                 return true;
@@ -62,7 +60,7 @@ namespace DirectoryCrawler.Services
 
         public IEnumerable<DirectoryEx> WalkDown(string path)
         {
-            var parts = path.Split(Path.DirectorySeparatorChar);
+            var parts = path.Split(System.IO.Path.DirectorySeparatorChar);
             var parent = this;
             foreach (var part in parts)
             {
@@ -120,19 +118,24 @@ namespace DirectoryCrawler.Services
                 directory = this.Parent;
                 return directory != null;
             }
-            if (Path.DirectorySeparatorChar.ToString().Equals(name) ||
+            if (System.IO.Path.DirectorySeparatorChar.ToString().Equals(name) ||
                 "".Equals(name))
             {
-                directory = root;
+                directory = Root;
                 return true;
             }
-            if (Directory.Exists(Path.Combine(this.FullPath, name)))
+            if (Directory.Exists(System.IO.Path.Combine(this.FullPath, name)))
             {
                 directory = new DirectoryEx(this, name);
                 return true;
             }
             directory = null;
             return false;
+        }
+
+        public override string ToString()
+        {
+            return this.Path;
         }
     }
 }

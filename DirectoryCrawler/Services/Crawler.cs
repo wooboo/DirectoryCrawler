@@ -22,69 +22,76 @@ namespace DirectoryCrawler.Services
         public DirectoryStructure Build(string path)
         {
             var dir = new DirectoryEx(_rootPath);
-            var rootMeta = new Meta();
-            if(dir.TryGetFile(_dirrcFileName, out var rootdirrc))
-            {
-                rootMeta = rootdirrc!.GetFromJson<Meta>();
-            }
+            var rootMeta = this.LoadMeta(dir);
             var meta = rootMeta;
+            DirectoryEx directory = dir;
             foreach (var item in dir.WalkDown(path))
             {
-                if (item.TryGetFile(_dirrcFileName, out var dirrc))
-                {
-                    var subMeta = dirrc!.GetFromJson<Meta>();
-                    meta = meta.Merge(subMeta, item);
-                }
+                Meta subMeta = this.LoadMeta(item);
+                meta = meta.Merge(subMeta, item);
+                directory = item;
             }
 
-            return null;// this.Crawl(null, startPath, path);
+            return this.Crawl(meta, directory);
         }
-        public DirectoryStructure Crawl(MetaUtil metaUtil, string startPath, string path)
+        private Meta LoadMeta(DirectoryEx directory)
         {
-            var pathSet = _path.GetPaths(path);
+            if (directory.TryGetFile(_dirrcFileName, out var dirrc))
+            {
+                return dirrc!.GetFromJson<Meta>();
+            }
 
-            var (filePropsDictionary, directoryProps) = GetProps(startPath, path);
-            IEnumerable<FileStructure> files = _path.GetFiles(pathSet.RelativePath)
-                .Where(o => o.Name != _dirrcFileName)
-                .Select(o => new FileStructure(o, filePropsDictionary.GetValueOrDefault(o.Name)));
+            return new Meta();
+        }
+        public DirectoryStructure Crawl(Meta meta, DirectoryEx directory)
+        {
+            var files = directory.GetFiles().Where(o => o.Name != _dirrcFileName).Select(f =>
+            {
+                return new FileStructure(f, meta.GetFileProperties(f.Name));
+            }).ToList();
+
             IEnumerable<DirectoryStructure> directories = null;
 
-            if (!directoryProps.Terminate)
+            if (meta.Terminate != true)
             {
-                directories = _path.GetDirectories(pathSet.RelativePath).Select(s => this.Crawl(null, startPath, s.RelativePath));
+                directories = directory.GetDirectories().Select(item =>
+                {
+                    var subMeta = this.LoadMeta(item);
+                    return this.Crawl(meta.Merge(subMeta, item), item);
+                }).ToList();
             }
-            return new DirectoryStructure(pathSet, files, directories, directoryProps);
+            return new DirectoryStructure(directory, files, directories, meta.GetProperties());
         }
 
-        private (Dictionary<string, FilePropertiesSet> filePropsDictionary, DirectoryPropertiesSet directoryProps)
-            GetProps(string startPath, string path)
-        {
-            var dirrc = Path.Combine(startPath, path, _dirrcFileName);
-            Dictionary<string, FilePropertiesSet> filePropsDictionary = null;
-            DirectoryPropertiesSet directoryProps = null;
-            if (File.Exists(dirrc))
-            {
-                Meta directoryMeta = JsonConvert.DeserializeObject<Meta>(File.ReadAllText(dirrc));
-                filePropsDictionary = new Dictionary<string, FilePropertiesSet>();
-                foreach (var directoryMetaFile in directoryMeta.Files)
-                {
-                    filePropsDictionary[directoryMetaFile.Key] = new FilePropertiesSet(directoryMetaFile.Value);
-                }
-                directoryProps = new DirectoryPropertiesSet(directoryMeta);
-                foreach (var directoryMetaBase in directoryMeta.Bases)
-                {
-                    if (_path.IsRoot(path, directoryMetaBase.Key, startPath))
-                    {
-                        directoryProps = directoryProps.Merge(directoryMetaBase.Value);
+        //private (Dictionary<string, FilePropertiesSet> filePropsDictionary, DirectoryPropertiesSet directoryProps)
+        //    GetProps(string startPath, string path)
+        //{
+        //    var dirrc = Path.Combine(startPath, path, _dirrcFileName);
+        //    Dictionary<string, FilePropertiesSet> filePropsDictionary = null;
+        //    DirectoryPropertiesSet directoryProps = null;
+        //    if (File.Exists(dirrc))
+        //    {
+        //        Meta directoryMeta = JsonConvert.DeserializeObject<Meta>(File.ReadAllText(dirrc));
+        //        filePropsDictionary = new Dictionary<string, FilePropertiesSet>();
+        //        foreach (var directoryMetaFile in directoryMeta.Files)
+        //        {
+        //            filePropsDictionary[directoryMetaFile.Key] = new FilePropertiesSet(directoryMetaFile.Value);
+        //        }
+        //        directoryProps = new DirectoryPropertiesSet(directoryMeta);
+        //        foreach (var directoryMetaBase in directoryMeta.Bases)
+        //        {
+        //            if (_path.IsRoot(path, directoryMetaBase.Key, startPath))
+        //            {
+        //                directoryProps = directoryProps.Merge(directoryMetaBase.Value);
 
-                        foreach (var (fileName, fileOverrides) in directoryMetaBase.Value.Files)
-                        {
-                            filePropsDictionary[fileName].Merge(fileOverrides);
-                        }
-                    }
-                }
-            }
-            return (filePropsDictionary, directoryProps);
-        }
+        //                foreach (var (fileName, fileOverrides) in directoryMetaBase.Value.Files)
+        //                {
+        //                    filePropsDictionary[fileName].Merge(fileOverrides);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return (filePropsDictionary, directoryProps);
+        //}
     }
 }

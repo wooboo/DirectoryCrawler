@@ -14,7 +14,7 @@ namespace FileSorter.Application.Get
         }
         protected override DirectoryStructure Handle(GetDirectoryMetadataRequest request)
         {
-            return this.crawler.Crawl(null, request.Path, request.Path);
+            return this.crawler.Build(request.Path);
         }
     }
 }

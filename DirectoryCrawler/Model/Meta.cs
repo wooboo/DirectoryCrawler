@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using DirectoryCrawler.Services;
+using DotNet.Globbing;
 using Newtonsoft.Json;
 
 namespace DirectoryCrawler.Model
@@ -30,8 +31,7 @@ namespace DirectoryCrawler.Model
 
             foreach (var (key, value) in this.Directories)
             {
-                if (directory.Name.Equals(key)
-                    || "*".Equals(key)
+                if (key.IsMatching(directory.Name)
                     || "**".Equals(key))
                 {
                     merged.Properties = merged.Properties.Merge(value.Properties);
@@ -56,10 +56,38 @@ namespace DirectoryCrawler.Model
 
             return merged;
         }
+
+        internal IDictionary<string, object> GetProperties()
+        {
+            return this.Properties;
+        }
+        
+        internal IDictionary<string, object> GetFileProperties(string name)
+        {
+            IDictionary<string, object> result = new Dictionary<string, object>();
+            foreach (var (key, value) in this.Files)
+            {
+                if (key.IsMatching(name))
+                {
+                    result = result.Merge(value);
+                }
+            }
+            return result;
+        }
     }
 
     public static class MetaHelper
     {
+        private static IDictionary<string, Glob> globs = new Dictionary<string, Glob>();
+        public static bool IsMatching(this string pattern, string name)
+        {
+            if(!globs.TryGetValue(pattern, out var glob))
+            {
+                glob = Glob.Parse(pattern);
+                globs[pattern] = glob;
+            }
+            return glob.IsMatch(name);
+        }
         public static IDictionary<string, T> Merge<T>(this IDictionary<string, T> properties,
             IDictionary<string, T> next)
         {

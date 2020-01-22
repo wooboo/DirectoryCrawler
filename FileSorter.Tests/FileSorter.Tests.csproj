@@ -33,4 +33,19 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Sample\KSW Doradztwo\2018\01\In\test2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Sample\KSW Doradztwo\2018\01\In\test1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Sample\KSW Doradztwo\2018\01\Out\test3.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Sample\KSW Doradztwo\2018\01\Out\test4.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -5,29 +5,38 @@ namespace DirectoryCrawler.Services
 {
     public class FileEx
     {
-        private readonly DirectoryEx parent;
-
         public FileEx(DirectoryEx parent, string name)
         {
-            this.parent = parent;
-            Name = name;
-            this.path = System.IO.Path.Combine(parent.FullPath, name);
+            this.Parent = parent;
+            this.Name = name;
+            this.Path = System.IO.Path.Combine(parent.Path, name);
+            this.FullPath = System.IO.Path.Combine(parent.FullPath, name);
+            this.root = parent.Root;
         }
 
         public string Name { get; }
 
-        public string Path => this.path;
+        public string Path { get; }
 
-        private readonly string path;
+        public string FullPath { get; }
+
+        private DirectoryEx root;
+
+        public DirectoryEx Parent { get; }
 
         public string GetAllText()
         {
-            return File.ReadAllText(this.path);
+            return File.ReadAllText(this.FullPath);
         }
 
         public T GetFromJson<T>()
         {
             return JsonConvert.DeserializeObject<T>(this.GetAllText());
+        }
+
+        public override string ToString()
+        {
+            return this.Path;
         }
     }
 }

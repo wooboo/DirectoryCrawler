@@ -5,17 +5,17 @@ namespace DirectoryCrawler.Model
 {
     public class FileStructure
     {
-        public FileStructure(PathSet pathSet, FilePropertiesSet properties)
+        public FileStructure(FileEx pathSet, IDictionary<string, object> properties)
         {
             this.Properties = properties;
             this.Name = pathSet.Name;
+            this.Path = pathSet.Path;
             this.FullPath = pathSet.FullPath;
-            this.RelativePath = pathSet.RelativePath;
         }
 
-        public string RelativePath { get; set; }
+        public string Path { get; set; }
 
-        public FilePropertiesSet Properties { get; set; }
+        public IDictionary<string, object> Properties { get; set; }
 
         public string Name { get; set; }
 
