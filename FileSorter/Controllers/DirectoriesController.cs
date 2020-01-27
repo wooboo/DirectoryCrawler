@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 namespace FileSorter.Controllers
 {
     [ApiController]
-    [Route("directories/{**path}")]
     public class DirectoriesController : ControllerBase
     {
         private readonly ILogger<DirectoriesController> logger;
@@ -18,10 +17,16 @@ namespace FileSorter.Controllers
             this.logger = logger;
             this.mediator = mediator;
         }
-
+        [HttpGet]
+        [Route("directories")]
+        public Task<IActionResult> Get()
+        {
+            return this.Get("");
+        }
 
         [HttpGet]
-        public async Task<IActionResult> Get(string path = "")
+        [Route("directories/{**path}")]
+        public async Task<IActionResult> Get([FromRoute] string path)
         {
             var pathInfo = await this.mediator.Send(new GetPathInfoRequest(path));
 

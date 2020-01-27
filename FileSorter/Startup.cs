@@ -51,8 +51,6 @@ namespace FileSorter
             MagickNET.SetGhostscriptDirectory(@".\Ghostscript");
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
 
             app.UseRouting();
 
@@ -72,6 +70,9 @@ namespace FileSorter
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
         }
     }
 }

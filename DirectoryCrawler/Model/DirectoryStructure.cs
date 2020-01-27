@@ -11,6 +11,7 @@ namespace DirectoryCrawler.Model
             this.Name = pathSet.Name;
             this.FullPath = pathSet.FullPath;
             this.Path = pathSet.Path;
+            this.UrlPath = pathSet.UrlPath;
             this.Files = files?.ToDictionary(o => o.Name);
             this.Directories = directories?.ToDictionary(o => o.Name);
             this.Properties = properties;
@@ -18,6 +19,7 @@ namespace DirectoryCrawler.Model
 
         public string Name { get; set; }
         public string Path { get; set; }
+        public string UrlPath { get; }
         public string FullPath { get; set; }
         public IDictionary<string, DirectoryStructure> Directories { get; set; }
         public IDictionary<string, object> Properties { get; set; }

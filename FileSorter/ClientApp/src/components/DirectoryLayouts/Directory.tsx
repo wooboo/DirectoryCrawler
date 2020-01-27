@@ -9,6 +9,7 @@ import { NativeTypes } from "react-dnd-html5-backend";
 import uploadFiles from "../../utils/uploadFiles";
 import pusher from "../../utils/pusher";
 import LayoutSelector from "../LayoutSelector";
+import { Meta } from "../../Meta";
 
 const DirectoryEntry = styled.li`
   list-style: none;
@@ -17,15 +18,10 @@ const DirectoryEntry = styled.li`
 `;
 const Directory = ({
   name,
-  relativePath,
+  urlPath,
   files,
   directories
-}: {
-  name: string;
-  relativePath: string;
-  files: any;
-  directories: any;
-}) => {
+}:Meta) => {
   const size = useContext(ThumbnailSizeContext);
   return (
     <>
@@ -34,7 +30,7 @@ const Directory = ({
         {files &&
           Object.entries(files).map(([k, v]) => (
             <DirectoryEntry key={k}>
-              <Thumbnail src={`files/${v.relativePath}`} width={size} />
+              <Thumbnail src={`files/${v.urlPath}`} width={size} />
               {k}
             </DirectoryEntry>
           ))}

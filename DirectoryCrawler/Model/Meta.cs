@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using DirectoryCrawler.Services;
 using DotNet.Globbing;
 using Newtonsoft.Json;
@@ -19,36 +20,51 @@ namespace DirectoryCrawler.Model
         [JsonExtensionData]
         public IDictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
 
+        public Meta Clone() => new Meta()
+        {
+            Terminate = this.Terminate,
+            Hidden = this.Hidden,
+            Virtuals = this.Virtuals.ToDictionary(o => o.Key, o => o.Value),
+            Properties = this.Properties.ToDictionary(o => o.Key, o => o.Value),
+            Directories = Directories.ToDictionary(o => o.Key, o => o.Value),
+            Files = this.Files.ToDictionary(o => o.Key, o => o.Value)
+        };
+
         public Meta Merge(Meta meta, DirectoryEx directory)
         {
-            var merged = new Meta()
-            {
-                Terminate = meta.Terminate ?? this.Terminate,
-                Hidden = meta.Hidden ?? this.Hidden,
-                Virtuals = meta.Virtuals,
-                Properties = this.Properties.Merge(meta.Properties),
-            };
+            var merged = meta.Clone();
 
             foreach (var (key, value) in this.Directories)
             {
                 if (key.IsMatching(directory.Name)
                     || "**".Equals(key))
                 {
-                    merged.Properties = merged.Properties.Merge(value.Properties);
-                    merged.Terminate = value.Terminate ?? merged.Terminate;
-                    merged.Hidden = value.Hidden ?? merged.Hidden;
-                    merged.Virtuals = merged.Virtuals.Merge(value.Virtuals);
+                    merged.Merge(value);
                 }
 
                 var keyParts = key.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
                 if ("**".Equals(key))
                 {
-                    merged.Directories[key] = value;
+                    if (merged.Directories.TryGetValue(key, out var subDir))
+                    {
+                        subDir.Merge(value);
+                    }
+                    else
+                    {
+                        merged.Directories[key] = value.Clone();
+                    }
                 }
                 else if (keyParts.Length > 1 && directory.Name.Equals(keyParts[0]))
                 {
                     var newKey = string.Join(Path.AltDirectorySeparatorChar, keyParts[1..]);
-                    merged.Directories[newKey] = value;
+                    if (merged.Directories.TryGetValue(newKey, out var subDir))
+                    {
+                        subDir.Merge(value);
+                    }
+                    else
+                    {
+                        merged.Directories[newKey] = value.Clone();
+                    }
                 }
             }
 
@@ -57,11 +73,20 @@ namespace DirectoryCrawler.Model
             return merged;
         }
 
+        public void Merge(Meta value)
+        {
+            this.Properties = this.Properties.Merge(value.Properties);
+            this.Terminate = value.Terminate ?? this.Terminate;
+            this.Hidden = value.Hidden ?? this.Hidden;
+            this.Virtuals = this.Virtuals.Merge(value.Virtuals);
+            this.Files = this.Files.Merge(value.Files);
+        }
+
         internal IDictionary<string, object> GetProperties()
         {
             return this.Properties;
         }
-        
+
         internal IDictionary<string, object> GetFileProperties(string name)
         {
             IDictionary<string, object> result = new Dictionary<string, object>();
@@ -81,7 +106,7 @@ namespace DirectoryCrawler.Model
         private static IDictionary<string, Glob> globs = new Dictionary<string, Glob>();
         public static bool IsMatching(this string pattern, string name)
         {
-            if(!globs.TryGetValue(pattern, out var glob))
+            if (!globs.TryGetValue(pattern, out var glob))
             {
                 glob = Glob.Parse(pattern);
                 globs[pattern] = glob;

@@ -92,7 +92,7 @@ namespace FileSorter.Tests
             var sut = new Crawler(".\\Sample");
 
             // act
-            var result = sut.Build("KSW Doradztwo\\2018\\01");
+            var result = sut.Build("KSW Doradztwo");
             // assert
             result.Should().NotBeNull();
         }

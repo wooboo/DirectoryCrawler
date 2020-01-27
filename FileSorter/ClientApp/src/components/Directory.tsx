@@ -16,16 +16,16 @@ const File = styled.li`
 `;
 const Directory = ({
   name,
-  relativePath,
+  urlPath,
   files,
   directories
 }: {
   name: string;
-  relativePath: string;
+  urlPath: string;
   files: any;
   directories: any;
 }) => {
-  const api = `/files/${relativePath}`;
+  const api = `/files/${urlPath}`;
   const handleFileDrop = useCallback(
     async (item, monitor) => {
       if (monitor) {
@@ -36,8 +36,8 @@ const Directory = ({
           await uploadFiles(api, files);
           trigger(`/directories/`);
         } else if (itemType === "file") {
-          if (relativePath !== monitorItem.relativePath) {
-            await pusher(api, "PUT", [monitorItem.relativePath]);
+          if (urlPath !== monitorItem.urlPath) {
+            await pusher(api, "PUT", [monitorItem.urlPath]);
             await new Promise(resolve => setTimeout(resolve, 200));
             trigger(`/directories/`);
           }

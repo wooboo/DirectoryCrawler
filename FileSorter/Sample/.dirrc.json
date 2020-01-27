@@ -18,10 +18,11 @@
             "[0-1][0,9]": {
               "virtuals": {
                 "TMP": "../../TMP"
-              }
-
+              },
+              "layout": "Month"
             }
-          }
+          },
+          "layout": "Year"
         }
       },
       "layout": "Company"

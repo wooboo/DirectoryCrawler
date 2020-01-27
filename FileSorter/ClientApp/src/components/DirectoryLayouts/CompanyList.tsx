@@ -1,21 +1,17 @@
 import React from "react";
 import { useRouter } from "../../utils/useRouter";
+import { Meta } from "../../Meta";
 
-export default function Company({
+export default function CompanyList({
   name,
-  relativePath,
+  urlPath,
   files,
   directories
-}: {
-  name: string;
-  relativePath: string;
-  files: any;
-  directories: any;
-}) {
+}: Meta) {
   const router = useRouter();
   const companies = Object.values(directories);
   
   return (
-    <ul>{companies && companies.map(n => <h1 onClick={()=>router.push(n.relativePath)} key={n.name}>{n.name}</h1>)}</ul>
+    <ul>{companies && companies.map(n => <h1 onClick={()=>router.push(n.urlPath)} key={n.name}>{n.name}</h1>)}</ul>
   );
 }

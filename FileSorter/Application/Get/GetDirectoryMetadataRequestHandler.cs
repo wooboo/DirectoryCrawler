@@ -1,6 +1,7 @@
 ﻿using DirectoryCrawler.Model;
 using DirectoryCrawler.Services;
 using MediatR;
+using System.IO;
 
 namespace FileSorter.Application.Get
 {
@@ -14,7 +15,7 @@ namespace FileSorter.Application.Get
         }
         protected override DirectoryStructure Handle(GetDirectoryMetadataRequest request)
         {
-            return this.crawler.Build(request.Path);
+            return this.crawler.Build(request.Path.Replace('/', Path.DirectorySeparatorChar));
         }
     }
 }

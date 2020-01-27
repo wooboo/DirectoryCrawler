@@ -1,22 +1,19 @@
 import React from "react";
 import LayoutSelector from "../LayoutSelector";
+import { Meta } from "../../Meta";
 
-export default function CompanyList({
+export default function Company({
   name,
-  relativePath,
+  urlPath,
   files,
   directories
-}: {
-  name: string;
-  relativePath: string;
-  files: any;
-  directories: any;
-}) {
+}: Meta) {
   const tmp = directories && directories["TMP"];
-  const notTmp = directories && Object.values(directories).filter(o => o.name !== "TMP");
+  const notTmp =
+    directories && Object.values(directories).filter(o => o.name !== "TMP");
   return (
     <>
-      <div>{tmp && <LayoutSelector {...tmp} />}</div>
+      <div>{tmp && <LayoutSelector {...tmp} key={tmp.name} />}</div>
       <ul>
         {notTmp &&
           notTmp.map(n => (
