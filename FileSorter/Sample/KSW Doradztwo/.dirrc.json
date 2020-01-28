@@ -1,7 +1,12 @@
 {
-  "bases": {
-    "../": {
-      "terminate": true
+  "directories": {
+    "20[1-2][0-9]": {
+      "directories": {
+        "[0-1][0-9]": {
+          "layout": "Month"
+        }
+      },
+      "layout": "Year"
     }
   },
   "layout": "Company"

@@ -34,12 +34,18 @@ namespace DirectoryCrawler.Services
 
         public IEnumerable<DirectoryEx> GetDirectories()
         {
-            return Directory.EnumerateDirectories(this.FullPath).Select(o => new DirectoryEx(this, System.IO.Path.GetFileName((string)o)));
+            return Directory.EnumerateDirectories(this.FullPath)
+                .Select(o => System.IO.Path.GetFileName(o))
+                .Where(o => !o.StartsWith("."))
+                .Select(o => new DirectoryEx(this, o));
         }
 
         public IEnumerable<FileEx> GetFiles()
         {
-            return Directory.EnumerateFiles(this.FullPath).Select(o => new FileEx(this, System.IO.Path.GetFileName(o)));
+            return Directory.EnumerateFiles(this.FullPath)
+                .Select(o => System.IO.Path.GetFileName(o))
+                .Where(o => !o.StartsWith("."))
+                .Select(o => new FileEx(this, o));
         }
 
         public bool TryGetFile(string filePath, out FileEx? file)

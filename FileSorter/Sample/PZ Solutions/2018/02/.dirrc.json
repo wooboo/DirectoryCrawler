@@ -1,3 +1,13 @@
 {
-
+  "directories": {
+    "*": {
+      "layout": "Directory"
+    }
+  },
+  "virtuals": {
+    "..\\..\\TMP": {
+      "layout":  "Temp"
+    }
+  },
+  "layout": "MonthFull"
 }

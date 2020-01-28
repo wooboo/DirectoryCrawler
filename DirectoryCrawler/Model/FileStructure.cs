@@ -11,14 +11,17 @@ namespace DirectoryCrawler.Model
             this.Name = pathSet.Name;
             this.Path = pathSet.Path;
             this.FullPath = pathSet.FullPath;
+            this.UrlPath = pathSet.UrlPath;
         }
 
-        public string Path { get; set; }
+        public string Path { get; }
 
-        public IDictionary<string, object> Properties { get; set; }
+        public IDictionary<string, object> Properties { get; }
 
-        public string Name { get; set; }
+        public string Name { get; }
 
-        public string FullPath { get; set; }
+        public string FullPath { get; }
+
+        public string UrlPath { get; }
     }
 }

@@ -12,6 +12,7 @@ namespace DirectoryCrawler.Services
             this.Path = System.IO.Path.Combine(parent.Path, name);
             this.FullPath = System.IO.Path.Combine(parent.FullPath, name);
             this.root = parent.Root;
+            this.UrlPath = this.Path.Replace(System.IO.Path.DirectorySeparatorChar, '/');
         }
 
         public string Name { get; }
@@ -21,6 +22,8 @@ namespace DirectoryCrawler.Services
         public string FullPath { get; }
 
         private DirectoryEx root;
+
+        public string UrlPath { get; }
 
         public DirectoryEx Parent { get; }
 

@@ -1,4 +1,5 @@
 import React, { useCallback, useContext } from "react";
+import { useRouter } from "../../utils/useRouter";
 import { trigger } from "swr";
 import styled from "styled-components";
 import FileDrop from "../FileDrop";
@@ -22,10 +23,11 @@ const Directory = ({
   files,
   directories
 }:Meta) => {
+  const router = useRouter();
   const size = useContext(ThumbnailSizeContext);
   return (
     <>
-      {name}
+      <h3 onClick={()=>router.push(urlPath)}>{name}</h3>
       <ul>
         {files &&
           Object.entries(files).map(([k, v]) => (

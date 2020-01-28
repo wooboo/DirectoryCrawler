@@ -11,56 +11,80 @@ namespace DirectoryCrawler.Services
     {
         private readonly string _rootPath;
         private readonly string _dirrcFileName;
+        private readonly string metaFileName;
         private readonly PathUtil _path;
 
-        public Crawler(string rootPath, string dirrcFileName = ".dirrc.json")
+        public Crawler(string rootPath, string dirrcFileName = ".dirrc.json", string metaFileName = ".meta.json")
         {
             _rootPath = rootPath;
             _dirrcFileName = dirrcFileName;
+            this.metaFileName = metaFileName;
             _path = new PathUtil(_rootPath);
         }
         public DirectoryStructure Build(string path)
         {
             var dir = new DirectoryEx(_rootPath);
-            var rootMeta = this.LoadMeta(dir);
+            var rootMeta = this.LoadMeta(dir, this.metaFileName);
             var meta = rootMeta;
             DirectoryEx directory = dir;
             foreach (var item in dir.WalkDown(path))
             {
-                Meta subMeta = this.LoadMeta(item);
+                Meta subMeta = this.LoadMeta(item, this.metaFileName);
                 meta = meta.Merge(subMeta, item);
                 directory = item;
             }
+            var dirrc = this.LoadMeta(directory, this._dirrcFileName);
 
-            return this.Crawl(meta, directory);
+            return this.Crawl(meta, dirrc, directory);
         }
-        private Meta LoadMeta(DirectoryEx directory)
+        private Meta LoadMeta(DirectoryEx directory, string fileName)
         {
-            if (directory.TryGetFile(_dirrcFileName, out var dirrc))
+            if (directory.TryGetFile(fileName, out var dirrc))
             {
                 return dirrc!.GetFromJson<Meta>();
             }
 
             return new Meta();
         }
-        public DirectoryStructure Crawl(Meta meta, DirectoryEx directory)
+        public DirectoryStructure Crawl(Meta meta, Meta dirrc, DirectoryEx directory)
         {
-            var files = directory.GetFiles().Where(o => o.Name != _dirrcFileName).Select(f =>
-            {
-                return new FileStructure(f, meta.GetFileProperties(f.Name));
-            }).ToList();
+            var merged = meta.Clone();
+            merged.Merge(dirrc);
 
-            IEnumerable<DirectoryStructure> directories = null;
+            var files = directory.GetFiles()
+                .Select(f => new FileStructure(f, merged.GetFileProperties(f.Name)
+                .Merge(dirrc.GetFileProperties(f.Name))))
+                .ToList();
 
-            if (meta.Terminate != true)
-            {
-                directories = directory.GetDirectories().Select(item =>
+
+            var directories = directory.GetDirectories()
+                .Select(item => new
                 {
-                    var subMeta = this.LoadMeta(item);
-                    return this.Crawl(meta.Merge(subMeta, item), item);
-                }).ToList();
-            }
-            return new DirectoryStructure(directory, files, directories, meta.GetProperties());
+                    item,
+                    subMeta = merged.Merge(this.LoadMeta(item, this.metaFileName), item),
+                    deeprc = dirrc.Merge(item)
+                })
+                .Where(o => o.deeprc != null)
+                .Select((x) => this.Crawl(x.subMeta, x.deeprc!, x.item))
+                .ToList();
+
+            directories.AddRange(merged.Virtuals
+                .Select(kvp =>
+                {
+                    var item = directory.GetNestedDirectory(kvp.Key);
+                    return new
+                    {
+                        kvp.Key,
+                        deeprc = kvp.Value ?? new Meta(),
+                        item,
+                        subMeta = merged.Merge(this.LoadMeta(item, this.metaFileName), item),
+
+                    };
+                })
+                .Select((x) => this.Crawl(x.subMeta, x.deeprc!, x.item))
+            );
+
+            return new DirectoryStructure(directory, files, directories, merged.GetProperties());
         }
 
         //private (Dictionary<string, FilePropertiesSet> filePropsDictionary, DirectoryPropertiesSet directoryProps)

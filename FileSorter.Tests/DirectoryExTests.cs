@@ -15,7 +15,7 @@ namespace FileSorter.Tests
         public void GetDirectories()
         {
             // arrange
-            var dir = new DirectoryEx(".\\Sample");
+            var dir = new DirectoryEx("..\\FileSorter\\Sample");
 
             // act
             var directories = dir.GetDirectories();
@@ -30,7 +30,7 @@ namespace FileSorter.Tests
         public void GetFile_Exists()
         {
             // arrange
-            var dir = new DirectoryEx(".\\Sample");
+            var dir = new DirectoryEx("..\\FileSorter\\Sample");
 
             // act
             var got = dir.TryGetFile(".dirrc.json", out var file);
@@ -44,7 +44,7 @@ namespace FileSorter.Tests
         public void GetFile_RelativePath_Exists()
         {
             // arrange
-            var dir = new DirectoryEx(".\\Sample");
+            var dir = new DirectoryEx("..\\FileSorter\\Sample");
 
             // act
             var got = dir.TryGetFile("KSW Doradztwo\\.dirrc.json", out var file);
@@ -58,7 +58,7 @@ namespace FileSorter.Tests
         public void GetFile_NotExists()
         {
             // arrange
-            var dir = new DirectoryEx(".\\Sample");
+            var dir = new DirectoryEx("..\\FileSorter\\Sample");
 
             // act
             var got = dir.TryGetFile(Guid.NewGuid().ToString("N"), out var file);
@@ -72,7 +72,7 @@ namespace FileSorter.Tests
         public void GetNestedDirectory_RelativePath_Exists()
         {
             // arrange
-            var dir = new DirectoryEx(".\\Sample");
+            var dir = new DirectoryEx("..\\FileSorter\\Sample");
 
             // act
             var got = dir.TryGetNestedDirectory("KSW Doradztwo\\2018", out var directory);
@@ -85,7 +85,7 @@ namespace FileSorter.Tests
         public void GetNestedDirectory_RelativePath_NotExists()
         {
             // arrange
-            var dir = new DirectoryEx(".\\Sample");
+            var dir = new DirectoryEx("..\\FileSorter\\Sample");
 
             // act
             var got = dir.TryGetNestedDirectory("KSW Doradztwo\\2018\\XYZ123", out var directory);
@@ -100,7 +100,7 @@ namespace FileSorter.Tests
         public void WalkDown_RelativePath_Exists1()
         {
             // arrange
-            var dir = new DirectoryEx(".\\Sample");
+            var dir = new DirectoryEx("..\\FileSorter\\Sample");
 
             // act
             var results = dir.WalkDown("KSW Doradztwo\\2018").ToArray();
@@ -115,7 +115,7 @@ namespace FileSorter.Tests
         public void WalkDown_RelativePath_Exists2()
         {
             // arrange
-            var dir = new DirectoryEx(".\\Sample");
+            var dir = new DirectoryEx("..\\FileSorter\\Sample");
 
             // act
             var results = dir.WalkDown("KSW Doradztwo\\..\\PZ Solutions\\2018").ToArray();
@@ -132,7 +132,7 @@ namespace FileSorter.Tests
         public void WalkDown_RelativePath_Exists3()
         {
             // arrange
-            var dir = new DirectoryEx(".\\Sample");
+            var dir = new DirectoryEx("..\\FileSorter\\Sample");
 
             // act
             var results = dir.WalkDown("KSW Doradztwo\\2018\\\\PZ Solutions\\2018").ToArray();
@@ -149,7 +149,7 @@ namespace FileSorter.Tests
         public void WalkDown_RelativePath_Exists4()
         {
             // arrange
-            var dir = new DirectoryEx(".\\Sample");
+            var dir = new DirectoryEx("..\\FileSorter\\Sample");
 
             // act
             var results = dir.WalkDown("\\PZ Solutions\\2018").ToArray();
@@ -165,7 +165,7 @@ namespace FileSorter.Tests
         public void WalkUp_RelativePath_Exists1()
         {
             // arrange
-            var dir = new DirectoryEx(".\\Sample")
+            var dir = new DirectoryEx("..\\FileSorter\\Sample")
                 .GetNestedDirectory("KSW Doradztwo\\2018\\\\PZ Solutions\\2018");
 
             // act

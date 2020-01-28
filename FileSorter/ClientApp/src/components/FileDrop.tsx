@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { NativeTypes } from "react-dnd-html5-backend";
 import { useDrop, DragObjectWithType, DropTargetMonitor } from "react-dnd";
 
@@ -33,9 +32,5 @@ function FileDrop(props: {
     </div>
   );
 }
-
-FileDrop.propTypes = {
-  onDrop: PropTypes.func
-};
 
 export default FileDrop;

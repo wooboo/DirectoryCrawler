@@ -8,6 +8,7 @@ import ThumbnailSizeContext from "../ThumbnailSizeContext";
 import { NativeTypes } from "react-dnd-html5-backend";
 import uploadFiles from "../utils/uploadFiles";
 import pusher from "../utils/pusher";
+import { Meta } from "../Meta";
 
 const File = styled.li`
   list-style: none;
@@ -19,12 +20,7 @@ const Directory = ({
   urlPath,
   files,
   directories
-}: {
-  name: string;
-  urlPath: string;
-  files: any;
-  directories: any;
-}) => {
+}: Meta) => {
   const api = `/files/${urlPath}`;
   const handleFileDrop = useCallback(
     async (item, monitor) => {
@@ -44,7 +40,7 @@ const Directory = ({
         }
       }
     },
-    [relativePath, api]
+    [urlPath, api]
   );
   const size = useContext(ThumbnailSizeContext);
 
@@ -54,21 +50,22 @@ const Directory = ({
       <ul>
         {files &&
           Object.entries(files).map(([k, v]) => (
-            <FileDrag relativePath={v.relativePath} name={k} key={k}>
+            <FileDrag relativePath={v.urlPath} name={k} key={k}>
               <File>
-                <Thumbnail src={`files/${v.relativePath}`} width={size} />
+                <Thumbnail src={`files/${v.urlPath}`} width={size} />
                 {k}
               </File>
             </FileDrag>
           ))}
         {directories &&
           Object.entries(directories).map(([k, v]) => (
-            <FileDrag relativePath={v.relativePath} name={k} key={k}>
+            <FileDrag relativePath={v.urlPath} name={k} key={k}>
               <Directory
                 name={k}
-                relativePath={v.relativePath}
+                urlPath={v.urlPath}
                 files={v.files}
                 directories={v.directories}
+                properties={v.properties}
               />
             </FileDrag>
           ))}

@@ -9,7 +9,7 @@ function Thumbnail({ src, width, height, alt }: Props) {
   const sizes = [width && `width=${width}`, height && `height=${height}`];
 
   const size = sizes.filter(o => o).join("&");
-  return <img src={`${src}?${size}`} style={{ width, height }} alt={alt} />;
+  return <img src={`${src}?${size}`} style={{ width:`${width}px`, height:`${height}px` }} alt={alt} />;
 }
 
 export default Thumbnail;

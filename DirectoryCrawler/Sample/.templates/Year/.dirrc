@@ -1,7 +1,0 @@
-{
-  "templates": {
-    "Month": {
-      "Name": "{{Month}}"
-    }
-  }
-}

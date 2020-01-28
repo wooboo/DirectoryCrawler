@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { useDrag } from "react-dnd";
 
 function FileDrag({
@@ -30,9 +29,5 @@ function FileDrag({
     </div>
   );
 }
-
-FileDrag.propTypes = {
-  onDrop: PropTypes.func
-};
 
 export default FileDrag;

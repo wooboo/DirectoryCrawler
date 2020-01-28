@@ -1,7 +1,12 @@
 {
-  "bases": {
-    "..": {
-      "terminate": true
+  "directories": {
+    "[0-1][0-9]": {
     }
-  }
+  },
+  "virtuals": {
+    "..\\TMP": {
+      "layout": "Directory"
+    }
+  },
+  "layout": "YearFull"
 }
