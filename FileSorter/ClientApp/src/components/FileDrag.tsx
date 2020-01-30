@@ -2,16 +2,16 @@ import React from "react";
 import { useDrag } from "react-dnd";
 
 function FileDrag({
-  relativePath,
+  urlPath,
   name,
   children
 }: {
-  relativePath: string;
+  urlPath: string;
   name: string;
   children: any;
 }) {
   const [{ isDragging }, drag] = useDrag({
-    item: { relativePath, name, type: "file" },
+    item: { urlPath, name, type: "file" },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
       if (item && dropResult) {

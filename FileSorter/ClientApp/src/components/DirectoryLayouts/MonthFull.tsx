@@ -10,8 +10,9 @@ import { NativeTypes } from "react-dnd-html5-backend";
 import uploadFiles from "../../utils/uploadFiles";
 import pusher from "../../utils/pusher";
 import LayoutSelector from "../LayoutSelector";
-import { Meta } from "../../Meta";
+import { Meta, Properties } from "../../Meta";
 import { DirectoryContainer, DirectoryListing, DirectoryEntry, DirectoryTitle } from "../Basics";
+import DirectoryEntries from "../DirectoryEntries";
 
 const RightContainer = styled.div`
   overflow-y: auto;
@@ -39,29 +40,22 @@ const MonthFull = ({
 }: Meta) => {
   const router = useRouter();
   const tmp = directories && directories["TMP"];
-  const notTmp =
-    directories && Object.values(directories).filter(o => o.name !== "TMP");
+  const notTmp = Object.keys(directories).reduce((object: {
+    [name: string]: Meta<Properties>;
+  }, key) => {
+    if (key !== "TMP") {
+      object[key] = directories[key]
+    }
+    return object
+  }, {});
   return (
     <Container>
-
       <DirectoryTitle onClick={() => router.push(urlPath)}>{urlPath}</DirectoryTitle>
       <LeftContainer>
         {tmp && <DirectoryEntry key={'TMP'}><LayoutSelector {...tmp} key={'TMP'} /></DirectoryEntry>}
       </LeftContainer>
       <RightContainer>
-        {notTmp && <DirectoryListing direction="column">
-          {Object.entries(notTmp).map(([k, v]) => (
-            <DirectoryEntry key={k}><LayoutSelector {...v} key={k} /></DirectoryEntry>
-          ))}
-        </DirectoryListing>}
-        {files && <DirectoryListing direction="row">
-          {Object.entries(files).map(([k, v]) => (
-            <DirectoryEntry key={k}>
-              <Thumbnail src={`files/${v.urlPath}`}  width={100} height={150}  />
-              {k}
-            </DirectoryEntry>
-          ))}
-        </DirectoryListing>}
+        <DirectoryEntries files={files} directories={notTmp} />
       </RightContainer>
     </Container>
   );

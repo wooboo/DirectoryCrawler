@@ -9,7 +9,7 @@ namespace FileSorter
 
         public string GetPhisicalPath(string path)
         {
-            return Path.Combine(this.FilesLocation, (path ?? "").Replace("/","\\"));
+            return Path.Combine(this.FilesLocation, (path ?? "").Replace('/', Path.DirectorySeparatorChar));
         }
     }
 }

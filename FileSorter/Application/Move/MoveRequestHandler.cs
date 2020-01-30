@@ -20,6 +20,8 @@ namespace FileSorter.Application.Move
         protected override void Handle(MoveRequest request)
         {
             var fileInfos = request.Paths
+                .Where(o => !string.IsNullOrEmpty(o))
+                .Select(o => o.TrimStart('/'))
                 .Select(o => this.settings.GetPhisicalPath(o))
                 .Select(o => new
                 {
