@@ -8,7 +8,7 @@ import fetcher from "./utils/fetcher";
 import LayoutSelector from './components/LayoutSelector';
 import {useRouter} from './utils/useRouter';
 export default () => {
-  const [size, setSize] = useState(100);
+  const [size, setSize] = useState(200);
   const router = useRouter();
   const { data } = useSWR(`/directories${router.pathname}`, fetcher);
   return (

@@ -1,4 +1,9 @@
 import React from "react";
+import styled from 'styled-components';
+
+const Image = styled.img`
+  width: 100%;
+`;
 interface Props {
   src: string;
   alt?: string;
@@ -9,7 +14,7 @@ function Thumbnail({ src, width, height, alt }: Props) {
   const sizes = [width && `width=${width}`, height && `height=${height}`];
 
   const size = sizes.filter(o => o).join("&");
-  return <img src={`${src}?${size}`} style={{ width:`${width}px`, height:`${height}px` }} alt={alt} />;
+  return <Image src={`${src}?${size}`} alt={alt} />;
 }
 
 export default Thumbnail;

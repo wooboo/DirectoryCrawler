@@ -1,4 +1,5 @@
 ﻿using FileSorter.Controllers;
+using ImageMagick;
 using MediatR;
 using Microsoft.Extensions.FileProviders;
 using System;
@@ -20,10 +21,19 @@ namespace FileSorter.Application.Get
         {
             var fileInfo = this.fileProvider.GetFileInfo(request.Path);
             var stream = new MemoryStream();
-            new ThumbnailGenerator().Resize(fileInfo, request.Width, request.Height, stream);
+            try
+            {
+                new ThumbnailGenerator().Resize(fileInfo, request.Width, request.Height, stream);
+
+            }
+            catch (MagickMissingDelegateErrorException)
+            {
+                new ThumbnailGenerator().Resize(this.fileProvider.GetFileInfo(".\\.dir\\unknown.png"), request.Width, request.Height, stream);
+
+            }
             stream.Seek(0, SeekOrigin.Begin);
 
-            return new GetFileResponse(fileInfo.CreateReadStream(), fileInfo.LastModified, "application/octet-stream");
+            return new GetFileResponse(stream, fileInfo.LastModified, "image/jpeg");
         }
     }
 

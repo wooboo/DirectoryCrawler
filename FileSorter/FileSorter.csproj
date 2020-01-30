@@ -27,117 +27,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Sample\.dirrc.json" />
-    <Content Remove="Sample\KSW Doradztwo\.dirrc.json" />
-    <Content Remove="Sample\KSW Doradztwo\2018\.dirrc.json" />
-    <Content Remove="Sample\KSW Doradztwo\2018\01\.dirrc.json" />
-    <Content Remove="Sample\KSW Doradztwo\2018\01\In\test1.json" />
-    <Content Remove="Sample\KSW Doradztwo\2018\01\In\test2.json" />
-    <Content Remove="Sample\KSW Doradztwo\2018\01\Out\test3.json" />
-    <Content Remove="Sample\KSW Doradztwo\2018\01\Out\test4.json" />
-    <Content Remove="Sample\KSW Doradztwo\2018\02\.dirrc.json" />
-    <Content Remove="Sample\KSW Doradztwo\2018\03\.dirrc.json" />
-    <Content Remove="Sample\KSW Doradztwo\2018\04\.dirrc.json" />
-    <Content Remove="Sample\KSW Doradztwo\2020\.dirrc.json" />
-    <Content Remove="Sample\KSW Doradztwo\2020\01\.dirrc.json" />
-    <Content Remove="Sample\KSW Doradztwo\2020\02\.dirrc.json" />
-    <Content Remove="Sample\KSW Doradztwo\2020\03\.dirrc.json" />
-    <Content Remove="Sample\KSW Doradztwo\2020\04\.dirrc.json" />
-    <Content Remove="Sample\PZ Solutions\.dirrc.json" />
-    <Content Remove="Sample\PZ Solutions\2018\.dirrc.json" />
-    <Content Remove="Sample\PZ Solutions\2018\01\.dirrc.json" />
-    <Content Remove="Sample\PZ Solutions\2018\02\.dirrc.json" />
-    <Content Remove="Sample\PZ Solutions\2018\03\.dirrc.json" />
-    <Content Remove="Sample\PZ Solutions\2019\.dirrc.json" />
-    <Content Remove="Sample\PZ Solutions\2019\01\.dirrc.json" />
-    <Content Remove="Sample\PZ Solutions\2019\02\.dirrc.json" />
-    <Content Remove="Sample\PZ Solutions\2019\03\.dirrc.json" />
-    <Content Remove="Sample\PZ Solutions\2019\04\.dirrc.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Sample\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\KSW Doradztwo\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\KSW Doradztwo\2018\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\KSW Doradztwo\2018\01\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\KSW Doradztwo\2018\01\In\test1.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\KSW Doradztwo\2018\01\In\test2.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\KSW Doradztwo\2018\01\Out\test3.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\KSW Doradztwo\2018\01\Out\test4.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\KSW Doradztwo\2018\02\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\KSW Doradztwo\2018\03\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\KSW Doradztwo\2018\04\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\KSW Doradztwo\2020\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\KSW Doradztwo\2020\01\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\KSW Doradztwo\2020\02\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\KSW Doradztwo\2020\03\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\KSW Doradztwo\2020\04\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\PZ Solutions\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\PZ Solutions\2018\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\PZ Solutions\2018\01\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\PZ Solutions\2018\02\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\PZ Solutions\2018\03\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\PZ Solutions\2019\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\PZ Solutions\2019\01\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\PZ Solutions\2019\02\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\PZ Solutions\2019\03\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Sample\PZ Solutions\2019\04\.dirrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DirectoryCrawler\DirectoryCrawler.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Sample\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -153,39 +51,6 @@
     <None Update="GhostScript\gswin64c.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Sample\KSW Doradztwo\2018\02\In\" />
-    <Folder Include="Sample\KSW Doradztwo\2018\02\Out\" />
-    <Folder Include="Sample\KSW Doradztwo\2018\03\In\" />
-    <Folder Include="Sample\KSW Doradztwo\2018\03\Out\" />
-    <Folder Include="Sample\KSW Doradztwo\2018\04\In\" />
-    <Folder Include="Sample\KSW Doradztwo\2018\04\Out\" />
-    <Folder Include="Sample\KSW Doradztwo\2020\01\In\" />
-    <Folder Include="Sample\KSW Doradztwo\2020\01\Out\" />
-    <Folder Include="Sample\KSW Doradztwo\2020\02\In\" />
-    <Folder Include="Sample\KSW Doradztwo\2020\02\Out\" />
-    <Folder Include="Sample\KSW Doradztwo\2020\03\In\" />
-    <Folder Include="Sample\KSW Doradztwo\2020\03\Out\" />
-    <Folder Include="Sample\KSW Doradztwo\2020\04\In\" />
-    <Folder Include="Sample\KSW Doradztwo\2020\04\Out\" />
-    <Folder Include="Sample\KSW Doradztwo\TMP\" />
-    <Folder Include="Sample\PZ Solutions\2018\01\In\" />
-    <Folder Include="Sample\PZ Solutions\2018\01\Out\" />
-    <Folder Include="Sample\PZ Solutions\2018\02\In\" />
-    <Folder Include="Sample\PZ Solutions\2018\02\Out\" />
-    <Folder Include="Sample\PZ Solutions\2018\03\In\" />
-    <Folder Include="Sample\PZ Solutions\2018\03\Out\" />
-    <Folder Include="Sample\PZ Solutions\2019\01\In\" />
-    <Folder Include="Sample\PZ Solutions\2019\01\Out\" />
-    <Folder Include="Sample\PZ Solutions\2019\02\In\" />
-    <Folder Include="Sample\PZ Solutions\2019\02\Out\" />
-    <Folder Include="Sample\PZ Solutions\2019\03\In\" />
-    <Folder Include="Sample\PZ Solutions\2019\03\Out\" />
-    <Folder Include="Sample\PZ Solutions\2019\04\In\" />
-    <Folder Include="Sample\PZ Solutions\2019\04\Out\" />
-    <Folder Include="Sample\PZ Solutions\TMP\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

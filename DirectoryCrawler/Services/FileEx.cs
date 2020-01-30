@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 
 namespace DirectoryCrawler.Services
@@ -13,6 +14,11 @@ namespace DirectoryCrawler.Services
             this.FullPath = System.IO.Path.Combine(parent.FullPath, name);
             this.root = parent.Root;
             this.UrlPath = this.Path.Replace(System.IO.Path.DirectorySeparatorChar, '/');
+            var fi = new FileInfo(this.FullPath);
+            this.CreationTime = fi.CreationTime;
+            this.LastAccessTime = fi.LastAccessTime;
+            this.LastWriteTime = fi.LastWriteTime;
+
         }
 
         public string Name { get; }
@@ -26,6 +32,9 @@ namespace DirectoryCrawler.Services
         public string UrlPath { get; }
 
         public DirectoryEx Parent { get; }
+        public DateTime CreationTime { get; }
+        public DateTime LastAccessTime { get; }
+        public DateTime LastWriteTime { get; }
 
         public string GetAllText()
         {

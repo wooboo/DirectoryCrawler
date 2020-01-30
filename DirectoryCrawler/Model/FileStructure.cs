@@ -1,27 +1,27 @@
 ﻿using DirectoryCrawler.Services;
+using System;
 using System.Collections.Generic;
 
 namespace DirectoryCrawler.Model
 {
     public class FileStructure
     {
-        public FileStructure(FileEx pathSet, IDictionary<string, object> properties)
+        private readonly FileEx file;
+
+        public FileStructure(FileEx file, IDictionary<string, object> properties)
         {
+            this.file = file;
             this.Properties = properties;
-            this.Name = pathSet.Name;
-            this.Path = pathSet.Path;
-            this.FullPath = pathSet.FullPath;
-            this.UrlPath = pathSet.UrlPath;
+
         }
 
-        public string Path { get; }
-
         public IDictionary<string, object> Properties { get; }
-
-        public string Name { get; }
-
-        public string FullPath { get; }
-
-        public string UrlPath { get; }
+        public string Name => this.file.Name;
+        public string Path => this.file.Path;
+        public string UrlPath => this.file.UrlPath;
+        public string FullPath => this.file.FullPath;
+        public DateTime CreationTime => this.file.CreationTime;
+        public DateTime LastAccessTime => this.file.LastAccessTime;
+        public DateTime LastWriteTime => this.file.LastWriteTime;
     }
 }

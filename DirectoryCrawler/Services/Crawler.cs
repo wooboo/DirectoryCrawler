@@ -9,21 +9,19 @@ namespace DirectoryCrawler.Services
 {
     public class Crawler
     {
-        private readonly string _rootPath;
-        private readonly string _dirrcFileName;
+        private readonly string rootPath;
+        private readonly string dirrcFileName;
         private readonly string metaFileName;
-        private readonly PathUtil _path;
 
         public Crawler(string rootPath, string dirrcFileName = ".dirrc.json", string metaFileName = ".meta.json")
         {
-            _rootPath = rootPath;
-            _dirrcFileName = dirrcFileName;
+            this.rootPath = rootPath;
+            this.dirrcFileName = dirrcFileName;
             this.metaFileName = metaFileName;
-            _path = new PathUtil(_rootPath);
         }
         public DirectoryStructure Build(string path)
         {
-            var dir = new DirectoryEx(_rootPath);
+            var dir = new DirectoryEx(rootPath);
             var rootMeta = this.LoadMeta(dir, this.metaFileName);
             var meta = rootMeta;
             DirectoryEx directory = dir;
@@ -33,7 +31,7 @@ namespace DirectoryCrawler.Services
                 meta = meta.Merge(subMeta, item);
                 directory = item;
             }
-            var dirrc = this.LoadMeta(directory, this._dirrcFileName);
+            var dirrc = this.LoadMeta(directory, this.dirrcFileName);
 
             return this.Crawl(meta, dirrc, directory);
         }
@@ -86,36 +84,5 @@ namespace DirectoryCrawler.Services
 
             return new DirectoryStructure(directory, files, directories, merged.GetProperties());
         }
-
-        //private (Dictionary<string, FilePropertiesSet> filePropsDictionary, DirectoryPropertiesSet directoryProps)
-        //    GetProps(string startPath, string path)
-        //{
-        //    var dirrc = Path.Combine(startPath, path, _dirrcFileName);
-        //    Dictionary<string, FilePropertiesSet> filePropsDictionary = null;
-        //    DirectoryPropertiesSet directoryProps = null;
-        //    if (File.Exists(dirrc))
-        //    {
-        //        Meta directoryMeta = JsonConvert.DeserializeObject<Meta>(File.ReadAllText(dirrc));
-        //        filePropsDictionary = new Dictionary<string, FilePropertiesSet>();
-        //        foreach (var directoryMetaFile in directoryMeta.Files)
-        //        {
-        //            filePropsDictionary[directoryMetaFile.Key] = new FilePropertiesSet(directoryMetaFile.Value);
-        //        }
-        //        directoryProps = new DirectoryPropertiesSet(directoryMeta);
-        //        foreach (var directoryMetaBase in directoryMeta.Bases)
-        //        {
-        //            if (_path.IsRoot(path, directoryMetaBase.Key, startPath))
-        //            {
-        //                directoryProps = directoryProps.Merge(directoryMetaBase.Value);
-
-        //                foreach (var (fileName, fileOverrides) in directoryMetaBase.Value.Files)
-        //                {
-        //                    filePropsDictionary[fileName].Merge(fileOverrides);
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return (filePropsDictionary, directoryProps);
-        //}
     }
 }

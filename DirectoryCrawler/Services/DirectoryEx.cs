@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -18,12 +19,17 @@ namespace DirectoryCrawler.Services
         }
         public DirectoryEx(DirectoryEx parent, string name)
         {
-            Parent = parent;
-            Name = name;
+            this.Parent = parent;
+            this.Name = name;
             this.Root = parent.Root;
             this.FullPath = System.IO.Path.Combine(parent.FullPath, name);
             this.Path = System.IO.Path.Combine(parent.Path, name);
             this.UrlPath = this.Path.Replace(System.IO.Path.DirectorySeparatorChar, '/');
+            var di = new DirectoryInfo(this.FullPath);
+            this.CreationTime = di.CreationTime;
+            this.LastAccessTime = di.LastAccessTime;
+            this.LastWriteTime = di.LastWriteTime;
+
         }
         public DirectoryEx Root { get; }
         public DirectoryEx Parent { get; }
@@ -31,6 +37,9 @@ namespace DirectoryCrawler.Services
         public string FullPath { get; }
         public string Path { get; }
         public string UrlPath { get; }
+        public DateTime CreationTime { get; }
+        public DateTime LastAccessTime { get; }
+        public DateTime LastWriteTime { get; }
 
         public IEnumerable<DirectoryEx> GetDirectories()
         {
