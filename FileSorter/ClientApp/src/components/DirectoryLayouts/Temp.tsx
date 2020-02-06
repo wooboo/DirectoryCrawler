@@ -1,28 +1,19 @@
-import React, { useCallback, useContext } from "react";
-import FileDrop from "../FileDrop";
-import FileDrag from "../FileDrag";
-import ThumbnailSizeContext from "../../ThumbnailSizeContext";
-import LayoutSelector from "../LayoutSelector";
-import { Meta } from "../../Meta";
-import { DirectoryContainer, DirectoryListing, DirectoryEntry, DirectoryTitle } from "../Basics";
-import File from "../File";
-import DirectoryEntries from "../DirectoryEntries";
+import React from 'react';
+import FileDrop from '../FileDrop';
+import { Meta } from '../../Meta';
+import { DirectoryContainer } from '../Basics';
+import DirectoryTitle from '../DirectoryTitle';
+import DirectoryEntries from '../DirectoryEntries';
 
-
-
-const Temp = ({
-  name,
-  urlPath,
-  files,
-  directories
-}: Meta) => {
-  const size = useContext(ThumbnailSizeContext);
+const Temp = ({ name, urlPath, files, directories }: Meta) => {
   return (
-    <FileDrop urlPath={urlPath}>
-      <DirectoryContainer>
-        <DirectoryTitle>{name}</DirectoryTitle>
-        <DirectoryEntries files={files} directories={directories}/>
+    <FileDrop urlPath={urlPath} name={name}>
+      {(drag)=>(
+      <DirectoryContainer ref={drag}>
+        <DirectoryTitle urlPath={urlPath}>{name}</DirectoryTitle>
+        <DirectoryEntries files={files} directories={directories} />
       </DirectoryContainer>
+      )}
     </FileDrop>
   );
 };

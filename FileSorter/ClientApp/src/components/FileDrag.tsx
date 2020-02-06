@@ -1,17 +1,15 @@
-import React from "react";
-import { useDrag } from "react-dnd";
+import { useDrag, DragElementWrapper, DragSourceOptions } from 'react-dnd';
+import { ReactElement } from 'react';
 
-function FileDrag({
-  urlPath,
-  name,
-  children
-}: {
+interface Props {
   urlPath: string;
   name: string;
-  children: any;
-}) {
+  children: (drag: DragElementWrapper<DragSourceOptions>, isDragging: boolean) => ReactElement;
+}
+
+export default function FileDrag({ urlPath, name, children }: Props): ReactElement {
   const [{ isDragging }, drag] = useDrag({
-    item: { urlPath, name, type: "file" },
+    item: { urlPath, name, type: 'file' },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
       if (item && dropResult) {
@@ -19,15 +17,9 @@ function FileDrag({
       }
     },
     collect: monitor => ({
-      isDragging: monitor.isDragging()
-    })
+      isDragging: monitor.isDragging(),
+    }),
   });
 
-  return (
-    <div ref={drag} style={{ opacity: isDragging ? 0.2 : 1 }}>
-      {children}
-    </div>
-  );
+  return children(drag, isDragging);
 }
-
-export default FileDrag;

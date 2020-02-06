@@ -1,27 +1,20 @@
-import React, { useCallback, useContext } from "react";
-import { useRouter } from "../../utils/useRouter";
-import FileDrop from "../FileDrop";
-import FileDrag from "../FileDrag";
-import LayoutSelector from "../LayoutSelector";
-import File from "../File";
-import { Meta } from "../../Meta";
-import { DirectoryContainer, DirectoryListing, DirectoryEntry, DirectoryTitle } from "../Basics";
-import DirectoryEntries from "../DirectoryEntries";
+import React from 'react';
+import FileDrop from '../FileDrop';
+import { Meta } from '../../Meta';
+import { DirectoryContainer } from '../Basics';
+import DirectoryTitle from '../DirectoryTitle';
+import DirectoryEntries from '../DirectoryEntries';
 
-const Directory = ({
-  name,
-  urlPath,
-  files,
-  directories
-}: Meta) => {
-  const router = useRouter();
-
+const Directory = ({ name, urlPath, files, directories }: Meta) => {
   return (
-    <FileDrop urlPath={urlPath}>
-      <DirectoryContainer>
-        <DirectoryTitle onClick={() => router.push(urlPath)}>{name}</DirectoryTitle>
-        <DirectoryEntries files={files} directories={directories}/>
-      </DirectoryContainer></FileDrop>
+    <FileDrop urlPath={urlPath} name={name}>
+      {(drag, isActive) => (
+        <DirectoryContainer ref={drag}>
+          <DirectoryTitle urlPath={urlPath}>{name}</DirectoryTitle>
+          <DirectoryEntries files={files} directories={directories} />
+        </DirectoryContainer>
+      )}
+    </FileDrop>
   );
 };
 

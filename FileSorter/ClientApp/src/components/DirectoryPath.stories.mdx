@@ -1,0 +1,18 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import { BrowserRouter } from 'react-router-dom';
+import DirectoryPath from './DirectoryPath';
+
+<Meta title="Components/DirectoryPath" component={DirectoryPath} />
+
+# DirectoryPath
+
+With `MDX` we can define a story for `DirectoryPath` right in the middle of our
+markdown documentation.
+
+<Preview>
+    <Story name="Simple Path">
+        <BrowserRouter basename='/'>
+            <DirectoryPath urlPath="/hello/world"></DirectoryPath>
+        </BrowserRouter>
+    </Story>
+</Preview>

@@ -1,0 +1,18 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import { BrowserRouter } from 'react-router-dom';
+import DirectoryTitle from './DirectoryTitle';
+
+<Meta title="Components/DirectoryTitle" component={DirectoryTitle} />
+
+# DirectoryTitle
+
+With `MDX` we can define a story for `DirectoryTitle` right in the middle of our
+markdown documentation.
+
+<Preview>
+    <Story name="Simple Title">
+        <BrowserRouter basename='/'>
+            <DirectoryTitle urlPath="/hello/world">Click Me</DirectoryTitle>
+        </BrowserRouter>
+    </Story>
+</Preview>
