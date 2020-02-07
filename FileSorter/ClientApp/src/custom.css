@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web&display=swap');
+
 body {
+  font-family: 'Titillium Web', sans-serif;
   height: 100%;
   margin: 0;
 }
@@ -7,4 +10,17 @@ html {
 }
 #root {
   height: 100%;
+}
+
+a:link {
+  color: #000000;
+}
+a:visited {
+  color: #000000;
+}
+a:hover {
+  color: #000000;
+}
+a:active {
+  color: #000000;
 }

@@ -1,3 +1,3 @@
 import React from 'react';
-const SettingsContext = React.createContext({ thumbnailSize: 200, filePreviewApi: '/files' });
+const SettingsContext = React.createContext({ thumbnail: { width: 150, height: 200 }, filePreviewApi: '/files' });
 export default SettingsContext;

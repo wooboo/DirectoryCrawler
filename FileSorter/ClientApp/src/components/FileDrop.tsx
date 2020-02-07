@@ -1,10 +1,7 @@
-import { ReactElement, useCallback } from 'react';
+import { ReactElement, useCallback, useContext } from 'react';
 import { NativeTypes } from 'react-dnd-html5-backend';
 import { useDrop, DragElementWrapper, DragSourceOptions } from 'react-dnd';
-import { trigger } from 'swr';
-import pusher from '../utils/pusher';
-import uploadFiles from '../utils/uploadFiles';
-import { useRouter } from '../utils/useRouter';
+import ApiContext from '../ApiContext';
 
 interface Props {
   urlPath: string;
@@ -13,9 +10,8 @@ interface Props {
 }
 
 function FileDrop(props: Props): ReactElement {
-  const router = useRouter();
   const { children, urlPath } = props;
-  const api = `/files${urlPath}`;
+  const { reloadAll, uploadFiles, moveFiles } = useContext(ApiContext);
   const handleFileDrop = useCallback(
     async (item, monitor) => {
       if (monitor) {
@@ -23,20 +19,20 @@ function FileDrop(props: Props): ReactElement {
         const itemType = monitor.getItemType();
         if (itemType === NativeTypes.FILE) {
           const files = monitorItem.files;
-          await uploadFiles(api, files);
-          trigger(`/directories${router.pathname}`);
+          await uploadFiles(urlPath, files);
+          reloadAll();
         } else if (itemType === 'file') {
           if (urlPath !== monitorItem.urlPath) {
-            await pusher(api, 'PUT', [monitorItem.urlPath]);
+            await moveFiles(urlPath, [monitorItem.urlPath]);
             await new Promise(resolve => setTimeout(resolve, 200));
-            trigger(`/directories${router.pathname}`);
+            reloadAll();
           }
         }
       }
     },
-    [urlPath, api],
+    [urlPath, uploadFiles, moveFiles, reloadAll],
   );
-  const [{ canDrop, isOver, isOverCurrent }, drop] = useDrop({
+  const [{ canDrop, isOverCurrent }, drop] = useDrop({
     accept: [NativeTypes.FILE, 'file'],
     drop(item, monitor) {
       const didDrop = monitor.didDrop();

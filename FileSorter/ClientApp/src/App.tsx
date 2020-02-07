@@ -1,21 +1,38 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { DndProvider } from 'react-dnd';
-import useSWR from 'swr';
+import styled from 'styled-components';
 import Backend from 'react-dnd-html5-backend';
 import './custom.css';
-import ThumbnailSizeContext from './ThumbnailSizeContext';
-import fetcher from './utils/fetcher';
 import LayoutSelector from './components/LayoutSelector';
-import { useRouter } from './utils/useRouter';
+import DirectoryPath from './components/DirectoryPath';
+import ApiContext from './ApiContext';
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+`;
+const Header = styled.div`
+  flex-shrink: 0;
+  padding: 10px;
+`;
+const Content = styled.div`
+  flex-grow: 1;
+  overflow: auto;
+  min-height: 2em;
+`;
 export default function App(): JSX.Element {
-    const [size] = useState(200);
-    const router = useRouter();
-    const { data } = useSWR(`/directories${router.pathname}`, fetcher);
-    return (
-        <>
-            <ThumbnailSizeContext.Provider value={size}>
-                <DndProvider backend={Backend}>{data && <LayoutSelector {...data} />}</DndProvider>
-            </ThumbnailSizeContext.Provider>
-        </>
-    );
+  const { path, data } = useContext(ApiContext);
+  return (
+    <Container>
+      <Header>
+        <DirectoryPath urlPath={path ?? ''} />
+      </Header>
+      <Content>
+        <DndProvider backend={Backend}>{data && <LayoutSelector {...data} />}</DndProvider>
+      </Content>
+    </Container>
+  );
 }

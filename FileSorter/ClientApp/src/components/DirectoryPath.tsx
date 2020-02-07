@@ -16,13 +16,16 @@ function DirectoryPath({ urlPath }: Props): ReactElement {
   }
   return (
     <span>
+      <StyledDirectoryTitle urlPath={'/'}>
+        🏚
+      </StyledDirectoryTitle>
       {items.map(({ name, urlPath }) => (
-        <>
+        <span key={urlPath}>
           /
           <StyledDirectoryTitle key={urlPath} urlPath={urlPath}>
             {name}
           </StyledDirectoryTitle>
-        </>
+        </span>
       ))}
     </span>
   );

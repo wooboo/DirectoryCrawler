@@ -20,6 +20,7 @@ namespace FileSorter.Controllers
                 }
                 MagickGeometry size = new MagickGeometry(width ?? 0, height ?? 0);
                 var image = images.First();
+                image.Alpha(AlphaOption.Remove);
                 image.Resize(size);
                 image.Write(stream, MagickFormat.Jpeg);
             }

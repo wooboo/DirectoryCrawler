@@ -27,15 +27,7 @@ export default function DirectoryEntries({ directories, files }: Props): ReactEl
           {Object.entries(files).map(([k, v]) => (
             <FileDrag urlPath={v.urlPath} name={k} key={k}>
               {(drag, isDragging) => (
-                <File
-                  ref={drag}
-                  isDragging={isDragging}
-                  name={k}
-                  urlPath={v.urlPath}
-                  properties={v}
-                  width={100}
-                  height={150}
-                />
+                <File ref={drag} isDragging={isDragging} name={k} urlPath={v.urlPath} properties={v} />
               )}
             </FileDrag>
           ))}

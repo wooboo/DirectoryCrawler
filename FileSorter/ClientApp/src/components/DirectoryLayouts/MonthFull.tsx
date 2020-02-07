@@ -4,7 +4,6 @@ import LayoutSelector from '../LayoutSelector';
 import { Meta, Properties } from '../../Meta';
 import { DirectoryEntry } from '../Basics';
 import DirectoryEntries from '../DirectoryEntries';
-import DirectoryPath from '../DirectoryPath';
 
 const RightContainer = styled.div`
   overflow-y: auto;
@@ -13,16 +12,19 @@ const RightContainer = styled.div`
 const LeftContainer = styled.div`
   overflow-y: auto;
   grid-area: tmp;
+  resize: horizontal;
+  min-width: 120px;
+  max-width: 50vw;
 `;
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 35% auto;
-  grid-template-rows: 0fr auto;
-  grid-template-areas:
-    'header header'
-    'tmp content';
+
+  grid-template:
+    'tmp content' auto
+    / min-content 1fr;
   height: 100%;
+  grid-gap: 3px;
 `;
 const MonthFull = ({ urlPath, files, directories }: Meta) => {
   const tmp = directories && directories['TMP'];
@@ -34,7 +36,6 @@ const MonthFull = ({ urlPath, files, directories }: Meta) => {
   }, {});
   return (
     <Container>
-      <DirectoryPath urlPath={urlPath} />
       <LeftContainer>
         {tmp && (
           <DirectoryEntry key={'TMP'}>
