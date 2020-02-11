@@ -25,7 +25,7 @@ const Container = styled.div<{
   border-style: solid;
   border-color: ${({ isDragging }) => (isDragging ? 'black' : 'gray')};
   min-width: ${({ w }) => w}px;
-  width: ${({ isSelected }) => (isSelected ? '100%' : '10%')};
+  width: ${({ isSelected }) => (isSelected ? '100%' : '1%')};
   ${({ isSelected, h }) =>
     !isSelected &&
     `

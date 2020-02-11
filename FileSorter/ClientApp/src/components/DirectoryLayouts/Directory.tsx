@@ -10,7 +10,12 @@ const Directory = ({ name, urlPath, files, directories }: Meta) => {
     <FileDrop urlPath={urlPath} name={name}>
       {(drag, isActive) => (
         <DirectoryContainer ref={drag} isDropping={isActive}>
-          <DirectoryTitle urlPath={urlPath}>{name}</DirectoryTitle>
+          <DirectoryTitle urlPath={urlPath}>
+            <span role="img" aria-label="Directory">
+              📁
+            </span>
+            {name}
+          </DirectoryTitle>
           <DirectoryEntries files={files} directories={directories} />
         </DirectoryContainer>
       )}

@@ -11,7 +11,7 @@ namespace DirectoryCrawler.Services
         public DirectoryEx(string path)
         {
             this.Parent = null;
-            this.Name = $"{System.IO.Path.DirectorySeparatorChar}";
+            this.Name = $"/";
             this.FullPath = path;
             this.Path = this.Name;
             this.Root = this;
