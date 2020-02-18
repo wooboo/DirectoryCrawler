@@ -1,0 +1,28 @@
+.container {
+    position: relative;
+    margin: 2px;
+    padding: 2px;
+    border-width: 1px;
+    border-style: solid;
+    overflow: hidden;
+    > .file-toolbar {
+        display: none;
+      }
+      :hover > .file-toolbar {
+        display: block;
+      }
+
+}
+
+.caption {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    background-color: rgba(197, 197, 197, 0.86);
+    border-radius: 4px;
+    padding: 4px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
