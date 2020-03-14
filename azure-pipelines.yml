@@ -12,5 +12,22 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    feedsToUse: 'select'
+    vstsFeed: '501e0fcb-cbfb-4cc8-ad22-6a285a92bdb5'
+- task: DotNetCoreCLI@2
   displayName: 'dotnet build $(buildConfiguration)'
+  inputs:
+    command: 'build'
+    configuration: $(buildConfiguration)
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: '*.sln'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+  
