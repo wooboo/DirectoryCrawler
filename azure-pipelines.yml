@@ -1,34 +1,47 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+name: $(Date:yyyyMMdd)$(Rev:.r)
+variables:
+  buildConfiguration: 'Release'
 
 trigger:
 - master
 
-pool: Default
-
-variables:
-  buildConfiguration: 'Release'
-
-steps:
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'restore'
-    feedsToUse: 'select'
-    vstsFeed: '501e0fcb-cbfb-4cc8-ad22-6a285a92bdb5'
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet build $(buildConfiguration)'
-  inputs:
-    command: 'build'
-    configuration: $(buildConfiguration)
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'test'
-    projects: '*.sln'
-  continueOnError: true
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: true
-  
+stages:
+- stage: Build
+  jobs:
+  - job: BuildJob
+    pool: Default
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore'
+        feedsToUse: 'select'
+        vstsFeed: '501e0fcb-cbfb-4cc8-ad22-6a285a92bdb5'
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet build $(buildConfiguration)'
+      inputs:
+        command: 'build'
+        configuration: $(buildConfiguration)
+- stage: Test
+  jobs:
+  - job: TestJob
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'test'
+        projects: '*.sln'
+      continueOnError: true
+- stage: Deploy
+  jobs:
+  - job: PublishJob
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'publish'
+        publishWebProjects: true
+  - job: DeployJob
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'publish'
+        publishWebProjects: true
+      
