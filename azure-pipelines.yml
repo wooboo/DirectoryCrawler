@@ -26,6 +26,7 @@ steps:
   inputs:
     command: 'test'
     projects: '*.sln'
+  continueOnError: true
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
