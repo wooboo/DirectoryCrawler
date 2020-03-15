@@ -11,6 +11,11 @@ stages:
   - job: BuildJob
     pool: Default
     steps:
+    - task: CmdLine@2
+      inputs:
+        script: |
+          echo Write your commands here
+          echo Hello $(buildConfiguration)
     - task: DotNetCoreCLI@2
       inputs:
         command: 'restore'
